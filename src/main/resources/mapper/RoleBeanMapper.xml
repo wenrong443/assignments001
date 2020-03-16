@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interview.mapper.RoleBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.interview.bean.RoleBean" >
+    <id column="rt_id" property="rtId" jdbcType="INTEGER" />
+    <result column="rt_ut_id" property="rtUtId" jdbcType="VARCHAR" />
+    <result column="rt_name" property="rtName" jdbcType="VARCHAR" />
+    <result column="rt_description" property="rtDescription" jdbcType="VARCHAR" />
+    <result column="rt_param1" property="rtParam1" jdbcType="VARCHAR" />
+    <result column="rt_param2" property="rtParam2" jdbcType="VARCHAR" />
+    <result column="rt_param3" property="rtParam3" jdbcType="VARCHAR" />
+    <result column="rt_param4" property="rtParam4" jdbcType="VARCHAR" />
+    <result column="rt_param5" property="rtParam5" jdbcType="VARCHAR" />
+    <result column="rt_status" property="rtStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    rt_id, rt_ut_id, rt_name, rt_description, rt_param1, rt_param2, rt_param3, rt_param4, 
+    rt_param5, rt_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.interview.bean.RoleBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from role_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_tbl
+    where rt_id = #{rtId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_tbl
+    where rt_id = #{rtId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.interview.bean.RoleBeanExample" >
+    delete from role_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.interview.bean.RoleBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="rtId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role_tbl (rt_ut_id, rt_name, rt_description, 
+      rt_param1, rt_param2, rt_param3, 
+      rt_param4, rt_param5, rt_status
+      )
+    values (#{rtUtId,jdbcType=VARCHAR}, #{rtName,jdbcType=VARCHAR}, #{rtDescription,jdbcType=VARCHAR}, 
+      #{rtParam1,jdbcType=VARCHAR}, #{rtParam2,jdbcType=VARCHAR}, #{rtParam3,jdbcType=VARCHAR}, 
+      #{rtParam4,jdbcType=VARCHAR}, #{rtParam5,jdbcType=VARCHAR}, #{rtStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.interview.bean.RoleBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="rtId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rtUtId != null" >
+        rt_ut_id,
+      </if>
+      <if test="rtName != null" >
+        rt_name,
+      </if>
+      <if test="rtDescription != null" >
+        rt_description,
+      </if>
+      <if test="rtParam1 != null" >
+        rt_param1,
+      </if>
+      <if test="rtParam2 != null" >
+        rt_param2,
+      </if>
+      <if test="rtParam3 != null" >
+        rt_param3,
+      </if>
+      <if test="rtParam4 != null" >
+        rt_param4,
+      </if>
+      <if test="rtParam5 != null" >
+        rt_param5,
+      </if>
+      <if test="rtStatus != null" >
+        rt_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rtUtId != null" >
+        #{rtUtId,jdbcType=VARCHAR},
+      </if>
+      <if test="rtName != null" >
+        #{rtName,jdbcType=VARCHAR},
+      </if>
+      <if test="rtDescription != null" >
+        #{rtDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam1 != null" >
+        #{rtParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam2 != null" >
+        #{rtParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam3 != null" >
+        #{rtParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam4 != null" >
+        #{rtParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam5 != null" >
+        #{rtParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="rtStatus != null" >
+        #{rtStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.interview.bean.RoleBeanExample" resultType="java.lang.Integer" >
+    select count(*) from role_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update role_tbl
+    <set >
+      <if test="record.rtId != null" >
+        rt_id = #{record.rtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.rtUtId != null" >
+        rt_ut_id = #{record.rtUtId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtName != null" >
+        rt_name = #{record.rtName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtDescription != null" >
+        rt_description = #{record.rtDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtParam1 != null" >
+        rt_param1 = #{record.rtParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtParam2 != null" >
+        rt_param2 = #{record.rtParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtParam3 != null" >
+        rt_param3 = #{record.rtParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtParam4 != null" >
+        rt_param4 = #{record.rtParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtParam5 != null" >
+        rt_param5 = #{record.rtParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtStatus != null" >
+        rt_status = #{record.rtStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update role_tbl
+    set rt_id = #{record.rtId,jdbcType=INTEGER},
+      rt_ut_id = #{record.rtUtId,jdbcType=VARCHAR},
+      rt_name = #{record.rtName,jdbcType=VARCHAR},
+      rt_description = #{record.rtDescription,jdbcType=VARCHAR},
+      rt_param1 = #{record.rtParam1,jdbcType=VARCHAR},
+      rt_param2 = #{record.rtParam2,jdbcType=VARCHAR},
+      rt_param3 = #{record.rtParam3,jdbcType=VARCHAR},
+      rt_param4 = #{record.rtParam4,jdbcType=VARCHAR},
+      rt_param5 = #{record.rtParam5,jdbcType=VARCHAR},
+      rt_status = #{record.rtStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.interview.bean.RoleBean" >
+    update role_tbl
+    <set >
+      <if test="rtUtId != null" >
+        rt_ut_id = #{rtUtId,jdbcType=VARCHAR},
+      </if>
+      <if test="rtName != null" >
+        rt_name = #{rtName,jdbcType=VARCHAR},
+      </if>
+      <if test="rtDescription != null" >
+        rt_description = #{rtDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam1 != null" >
+        rt_param1 = #{rtParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam2 != null" >
+        rt_param2 = #{rtParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam3 != null" >
+        rt_param3 = #{rtParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam4 != null" >
+        rt_param4 = #{rtParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="rtParam5 != null" >
+        rt_param5 = #{rtParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="rtStatus != null" >
+        rt_status = #{rtStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where rt_id = #{rtId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.interview.bean.RoleBean" >
+    update role_tbl
+    set rt_ut_id = #{rtUtId,jdbcType=VARCHAR},
+      rt_name = #{rtName,jdbcType=VARCHAR},
+      rt_description = #{rtDescription,jdbcType=VARCHAR},
+      rt_param1 = #{rtParam1,jdbcType=VARCHAR},
+      rt_param2 = #{rtParam2,jdbcType=VARCHAR},
+      rt_param3 = #{rtParam3,jdbcType=VARCHAR},
+      rt_param4 = #{rtParam4,jdbcType=VARCHAR},
+      rt_param5 = #{rtParam5,jdbcType=VARCHAR},
+      rt_status = #{rtStatus,jdbcType=INTEGER}
+    where rt_id = #{rtId,jdbcType=INTEGER}
+  </update>
+</mapper>

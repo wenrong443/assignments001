@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interview.mapper.ProductBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.interview.bean.ProductBean" >
+    <id column="pt_id" property="ptId" jdbcType="INTEGER" />
+    <result column="pt_url" property="ptUrl" jdbcType="VARCHAR" />
+    <result column="pt_title" property="ptTitle" jdbcType="VARCHAR" />
+    <result column="pt_ct_id" property="ptCtId" jdbcType="INTEGER" />
+    <result column="pt_price" property="ptPrice" jdbcType="REAL" />
+    <result column="pt_msrp" property="ptMsrp" jdbcType="INTEGER" />
+    <result column="pt_status" property="ptStatus" jdbcType="INTEGER" />
+    <result column="pt_mt_id" property="ptMtId" jdbcType="INTEGER" />
+    <result column="pt_param1" property="ptParam1" jdbcType="VARCHAR" />
+    <result column="pt_param2" property="ptParam2" jdbcType="VARCHAR" />
+    <result column="pt_param3" property="ptParam3" jdbcType="VARCHAR" />
+    <result column="pt_param4" property="ptParam4" jdbcType="VARCHAR" />
+    <result column="pt_param5" property="ptParam5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.interview.bean.ProductBean" extends="BaseResultMap" >
+    <result column="pt_description" property="ptDescription" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pt_id, pt_url, pt_title, pt_ct_id, pt_price, pt_msrp, pt_status, pt_mt_id, pt_param1, 
+    pt_param2, pt_param3, pt_param4, pt_param5
+  </sql>
+  <sql id="Blob_Column_List" >
+    pt_description
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.interview.bean.ProductBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.interview.bean.ProductBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product_tbl
+    where pt_id = #{ptId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_tbl
+    where pt_id = #{ptId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.interview.bean.ProductBeanExample" >
+    delete from product_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.interview.bean.ProductBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="ptId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_tbl (pt_url, pt_title, pt_ct_id, 
+      pt_price, pt_msrp, pt_status, 
+      pt_mt_id, pt_param1, pt_param2, 
+      pt_param3, pt_param4, pt_param5, 
+      pt_description)
+    values (#{ptUrl,jdbcType=VARCHAR}, #{ptTitle,jdbcType=VARCHAR}, #{ptCtId,jdbcType=INTEGER}, 
+      #{ptPrice,jdbcType=REAL}, #{ptMsrp,jdbcType=INTEGER}, #{ptStatus,jdbcType=INTEGER}, 
+      #{ptMtId,jdbcType=INTEGER}, #{ptParam1,jdbcType=VARCHAR}, #{ptParam2,jdbcType=VARCHAR}, 
+      #{ptParam3,jdbcType=VARCHAR}, #{ptParam4,jdbcType=VARCHAR}, #{ptParam5,jdbcType=VARCHAR}, 
+      #{ptDescription,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.interview.bean.ProductBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="ptId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ptUrl != null" >
+        pt_url,
+      </if>
+      <if test="ptTitle != null" >
+        pt_title,
+      </if>
+      <if test="ptCtId != null" >
+        pt_ct_id,
+      </if>
+      <if test="ptPrice != null" >
+        pt_price,
+      </if>
+      <if test="ptMsrp != null" >
+        pt_msrp,
+      </if>
+      <if test="ptStatus != null" >
+        pt_status,
+      </if>
+      <if test="ptMtId != null" >
+        pt_mt_id,
+      </if>
+      <if test="ptParam1 != null" >
+        pt_param1,
+      </if>
+      <if test="ptParam2 != null" >
+        pt_param2,
+      </if>
+      <if test="ptParam3 != null" >
+        pt_param3,
+      </if>
+      <if test="ptParam4 != null" >
+        pt_param4,
+      </if>
+      <if test="ptParam5 != null" >
+        pt_param5,
+      </if>
+      <if test="ptDescription != null" >
+        pt_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ptUrl != null" >
+        #{ptUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ptTitle != null" >
+        #{ptTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ptCtId != null" >
+        #{ptCtId,jdbcType=INTEGER},
+      </if>
+      <if test="ptPrice != null" >
+        #{ptPrice,jdbcType=REAL},
+      </if>
+      <if test="ptMsrp != null" >
+        #{ptMsrp,jdbcType=INTEGER},
+      </if>
+      <if test="ptStatus != null" >
+        #{ptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ptMtId != null" >
+        #{ptMtId,jdbcType=INTEGER},
+      </if>
+      <if test="ptParam1 != null" >
+        #{ptParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam2 != null" >
+        #{ptParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam3 != null" >
+        #{ptParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam4 != null" >
+        #{ptParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam5 != null" >
+        #{ptParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="ptDescription != null" >
+        #{ptDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.interview.bean.ProductBeanExample" resultType="java.lang.Integer" >
+    select count(*) from product_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product_tbl
+    <set >
+      <if test="record.ptId != null" >
+        pt_id = #{record.ptId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptUrl != null" >
+        pt_url = #{record.ptUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptTitle != null" >
+        pt_title = #{record.ptTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptCtId != null" >
+        pt_ct_id = #{record.ptCtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptPrice != null" >
+        pt_price = #{record.ptPrice,jdbcType=REAL},
+      </if>
+      <if test="record.ptMsrp != null" >
+        pt_msrp = #{record.ptMsrp,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptStatus != null" >
+        pt_status = #{record.ptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptMtId != null" >
+        pt_mt_id = #{record.ptMtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptParam1 != null" >
+        pt_param1 = #{record.ptParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptParam2 != null" >
+        pt_param2 = #{record.ptParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptParam3 != null" >
+        pt_param3 = #{record.ptParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptParam4 != null" >
+        pt_param4 = #{record.ptParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptParam5 != null" >
+        pt_param5 = #{record.ptParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ptDescription != null" >
+        pt_description = #{record.ptDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update product_tbl
+    set pt_id = #{record.ptId,jdbcType=INTEGER},
+      pt_url = #{record.ptUrl,jdbcType=VARCHAR},
+      pt_title = #{record.ptTitle,jdbcType=VARCHAR},
+      pt_ct_id = #{record.ptCtId,jdbcType=INTEGER},
+      pt_price = #{record.ptPrice,jdbcType=REAL},
+      pt_msrp = #{record.ptMsrp,jdbcType=INTEGER},
+      pt_status = #{record.ptStatus,jdbcType=INTEGER},
+      pt_mt_id = #{record.ptMtId,jdbcType=INTEGER},
+      pt_param1 = #{record.ptParam1,jdbcType=VARCHAR},
+      pt_param2 = #{record.ptParam2,jdbcType=VARCHAR},
+      pt_param3 = #{record.ptParam3,jdbcType=VARCHAR},
+      pt_param4 = #{record.ptParam4,jdbcType=VARCHAR},
+      pt_param5 = #{record.ptParam5,jdbcType=VARCHAR},
+      pt_description = #{record.ptDescription,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product_tbl
+    set pt_id = #{record.ptId,jdbcType=INTEGER},
+      pt_url = #{record.ptUrl,jdbcType=VARCHAR},
+      pt_title = #{record.ptTitle,jdbcType=VARCHAR},
+      pt_ct_id = #{record.ptCtId,jdbcType=INTEGER},
+      pt_price = #{record.ptPrice,jdbcType=REAL},
+      pt_msrp = #{record.ptMsrp,jdbcType=INTEGER},
+      pt_status = #{record.ptStatus,jdbcType=INTEGER},
+      pt_mt_id = #{record.ptMtId,jdbcType=INTEGER},
+      pt_param1 = #{record.ptParam1,jdbcType=VARCHAR},
+      pt_param2 = #{record.ptParam2,jdbcType=VARCHAR},
+      pt_param3 = #{record.ptParam3,jdbcType=VARCHAR},
+      pt_param4 = #{record.ptParam4,jdbcType=VARCHAR},
+      pt_param5 = #{record.ptParam5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.interview.bean.ProductBean" >
+    update product_tbl
+    <set >
+      <if test="ptUrl != null" >
+        pt_url = #{ptUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ptTitle != null" >
+        pt_title = #{ptTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="ptCtId != null" >
+        pt_ct_id = #{ptCtId,jdbcType=INTEGER},
+      </if>
+      <if test="ptPrice != null" >
+        pt_price = #{ptPrice,jdbcType=REAL},
+      </if>
+      <if test="ptMsrp != null" >
+        pt_msrp = #{ptMsrp,jdbcType=INTEGER},
+      </if>
+      <if test="ptStatus != null" >
+        pt_status = #{ptStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ptMtId != null" >
+        pt_mt_id = #{ptMtId,jdbcType=INTEGER},
+      </if>
+      <if test="ptParam1 != null" >
+        pt_param1 = #{ptParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam2 != null" >
+        pt_param2 = #{ptParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam3 != null" >
+        pt_param3 = #{ptParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam4 != null" >
+        pt_param4 = #{ptParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="ptParam5 != null" >
+        pt_param5 = #{ptParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="ptDescription != null" >
+        pt_description = #{ptDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where pt_id = #{ptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.interview.bean.ProductBean" >
+    update product_tbl
+    set pt_url = #{ptUrl,jdbcType=VARCHAR},
+      pt_title = #{ptTitle,jdbcType=VARCHAR},
+      pt_ct_id = #{ptCtId,jdbcType=INTEGER},
+      pt_price = #{ptPrice,jdbcType=REAL},
+      pt_msrp = #{ptMsrp,jdbcType=INTEGER},
+      pt_status = #{ptStatus,jdbcType=INTEGER},
+      pt_mt_id = #{ptMtId,jdbcType=INTEGER},
+      pt_param1 = #{ptParam1,jdbcType=VARCHAR},
+      pt_param2 = #{ptParam2,jdbcType=VARCHAR},
+      pt_param3 = #{ptParam3,jdbcType=VARCHAR},
+      pt_param4 = #{ptParam4,jdbcType=VARCHAR},
+      pt_param5 = #{ptParam5,jdbcType=VARCHAR},
+      pt_description = #{ptDescription,jdbcType=LONGVARCHAR}
+    where pt_id = #{ptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.interview.bean.ProductBean" >
+    update product_tbl
+    set pt_url = #{ptUrl,jdbcType=VARCHAR},
+      pt_title = #{ptTitle,jdbcType=VARCHAR},
+      pt_ct_id = #{ptCtId,jdbcType=INTEGER},
+      pt_price = #{ptPrice,jdbcType=REAL},
+      pt_msrp = #{ptMsrp,jdbcType=INTEGER},
+      pt_status = #{ptStatus,jdbcType=INTEGER},
+      pt_mt_id = #{ptMtId,jdbcType=INTEGER},
+      pt_param1 = #{ptParam1,jdbcType=VARCHAR},
+      pt_param2 = #{ptParam2,jdbcType=VARCHAR},
+      pt_param3 = #{ptParam3,jdbcType=VARCHAR},
+      pt_param4 = #{ptParam4,jdbcType=VARCHAR},
+      pt_param5 = #{ptParam5,jdbcType=VARCHAR}
+    where pt_id = #{ptId,jdbcType=INTEGER}
+  </update>
+</mapper>

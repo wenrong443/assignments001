@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interview.mapper.JWTBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.interview.bean.JWTBean" >
+    <id column="jt_id" property="jtId" jdbcType="INTEGER" />
+    <result column="jt_ut_id" property="jtUtId" jdbcType="BIGINT" />
+    <result column="jt_token" property="jtToken" jdbcType="VARCHAR" />
+    <result column="jt_expired_on" property="jtExpiredOn" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    jt_id, jt_ut_id, jt_token, jt_expired_on
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.interview.bean.JWTBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from jwt_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jwt_tbl
+    where jt_id = #{jtId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jwt_tbl
+    where jt_id = #{jtId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.interview.bean.JWTBeanExample" >
+    delete from jwt_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.interview.bean.JWTBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="jtId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jwt_tbl (jt_ut_id, jt_token, jt_expired_on
+      )
+    values (#{jtUtId,jdbcType=BIGINT}, #{jtToken,jdbcType=VARCHAR}, #{jtExpiredOn,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.interview.bean.JWTBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="jtId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into jwt_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jtUtId != null" >
+        jt_ut_id,
+      </if>
+      <if test="jtToken != null" >
+        jt_token,
+      </if>
+      <if test="jtExpiredOn != null" >
+        jt_expired_on,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jtUtId != null" >
+        #{jtUtId,jdbcType=BIGINT},
+      </if>
+      <if test="jtToken != null" >
+        #{jtToken,jdbcType=VARCHAR},
+      </if>
+      <if test="jtExpiredOn != null" >
+        #{jtExpiredOn,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.interview.bean.JWTBeanExample" resultType="java.lang.Integer" >
+    select count(*) from jwt_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update jwt_tbl
+    <set >
+      <if test="record.jtId != null" >
+        jt_id = #{record.jtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.jtUtId != null" >
+        jt_ut_id = #{record.jtUtId,jdbcType=BIGINT},
+      </if>
+      <if test="record.jtToken != null" >
+        jt_token = #{record.jtToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jtExpiredOn != null" >
+        jt_expired_on = #{record.jtExpiredOn,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update jwt_tbl
+    set jt_id = #{record.jtId,jdbcType=INTEGER},
+      jt_ut_id = #{record.jtUtId,jdbcType=BIGINT},
+      jt_token = #{record.jtToken,jdbcType=VARCHAR},
+      jt_expired_on = #{record.jtExpiredOn,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.interview.bean.JWTBean" >
+    update jwt_tbl
+    <set >
+      <if test="jtUtId != null" >
+        jt_ut_id = #{jtUtId,jdbcType=BIGINT},
+      </if>
+      <if test="jtToken != null" >
+        jt_token = #{jtToken,jdbcType=VARCHAR},
+      </if>
+      <if test="jtExpiredOn != null" >
+        jt_expired_on = #{jtExpiredOn,jdbcType=BIGINT},
+      </if>
+    </set>
+    where jt_id = #{jtId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.interview.bean.JWTBean" >
+    update jwt_tbl
+    set jt_ut_id = #{jtUtId,jdbcType=BIGINT},
+      jt_token = #{jtToken,jdbcType=VARCHAR},
+      jt_expired_on = #{jtExpiredOn,jdbcType=BIGINT}
+    where jt_id = #{jtId,jdbcType=INTEGER}
+  </update>
+</mapper>

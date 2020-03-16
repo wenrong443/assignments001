@@ -1,0 +1,30 @@
+Followings are the assignments:
+
+1. Design and implement database structure including at least product, category and merchant tables
+	- Refer "product_data_file_sample.csv" which include product data as well as category and merchant
+
+2. Design and implement product management with REST APIs (or GraphQL) for product, category and merchant data
+	- Must consider relationships among product, category and merchant data
+	- Must have authentication
+	- Must have followings actions
+		: Create new product
+		: Search a product by product name
+		: Edit a product
+		: Delete product(s)
+
+Technical Stack: 
+	- Java 1.8, JBoss EAP 7.1, Spring Boot, MySQL
+
+Required:
+	- Share your github link including source code, overview, class diagram and activity diagram
+		(FYI, you can use PlantUML or any)
+
+Additional:
+	- Consider OOP, Microservices
+
+
+<Attentions>
+- 3 days are given for the assessment but they can have more if needed
+- As mentioned, diagrams and explanation how they derived the result are required
+- Keep in mind to briefly describe this online assessment during the interview as well as your career
+- Feel free to bring your any projects or achievements to share

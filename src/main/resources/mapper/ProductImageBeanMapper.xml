@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interview.mapper.ProductImageBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.interview.bean.ProductImageBean" >
+    <id column="pit_id" property="pitId" jdbcType="INTEGER" />
+    <result column="pit_path" property="pitPath" jdbcType="VARCHAR" />
+    <result column="pit_pt_id" property="pitPtId" jdbcType="INTEGER" />
+    <result column="pit_status" property="pitStatus" jdbcType="INTEGER" />
+    <result column="pit_param1" property="pitParam1" jdbcType="VARCHAR" />
+    <result column="pit_param2" property="pitParam2" jdbcType="VARCHAR" />
+    <result column="pit_param3" property="pitParam3" jdbcType="VARCHAR" />
+    <result column="pit_param4" property="pitParam4" jdbcType="VARCHAR" />
+    <result column="pit_param5" property="pitParam5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    pit_id, pit_path, pit_pt_id, pit_status, pit_param1, pit_param2, pit_param3, pit_param4, 
+    pit_param5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.interview.bean.ProductImageBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product_image_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_image_tbl
+    where pit_id = #{pitId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_image_tbl
+    where pit_id = #{pitId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.interview.bean.ProductImageBeanExample" >
+    delete from product_image_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.interview.bean.ProductImageBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="pitId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_image_tbl (pit_path, pit_pt_id, pit_status, 
+      pit_param1, pit_param2, pit_param3, 
+      pit_param4, pit_param5)
+    values (#{pitPath,jdbcType=VARCHAR}, #{pitPtId,jdbcType=INTEGER}, #{pitStatus,jdbcType=INTEGER}, 
+      #{pitParam1,jdbcType=VARCHAR}, #{pitParam2,jdbcType=VARCHAR}, #{pitParam3,jdbcType=VARCHAR}, 
+      #{pitParam4,jdbcType=VARCHAR}, #{pitParam5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.interview.bean.ProductImageBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="pitId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_image_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pitPath != null" >
+        pit_path,
+      </if>
+      <if test="pitPtId != null" >
+        pit_pt_id,
+      </if>
+      <if test="pitStatus != null" >
+        pit_status,
+      </if>
+      <if test="pitParam1 != null" >
+        pit_param1,
+      </if>
+      <if test="pitParam2 != null" >
+        pit_param2,
+      </if>
+      <if test="pitParam3 != null" >
+        pit_param3,
+      </if>
+      <if test="pitParam4 != null" >
+        pit_param4,
+      </if>
+      <if test="pitParam5 != null" >
+        pit_param5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pitPath != null" >
+        #{pitPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pitPtId != null" >
+        #{pitPtId,jdbcType=INTEGER},
+      </if>
+      <if test="pitStatus != null" >
+        #{pitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="pitParam1 != null" >
+        #{pitParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam2 != null" >
+        #{pitParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam3 != null" >
+        #{pitParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam4 != null" >
+        #{pitParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam5 != null" >
+        #{pitParam5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.interview.bean.ProductImageBeanExample" resultType="java.lang.Integer" >
+    select count(*) from product_image_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product_image_tbl
+    <set >
+      <if test="record.pitId != null" >
+        pit_id = #{record.pitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pitPath != null" >
+        pit_path = #{record.pitPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pitPtId != null" >
+        pit_pt_id = #{record.pitPtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pitStatus != null" >
+        pit_status = #{record.pitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.pitParam1 != null" >
+        pit_param1 = #{record.pitParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pitParam2 != null" >
+        pit_param2 = #{record.pitParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pitParam3 != null" >
+        pit_param3 = #{record.pitParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pitParam4 != null" >
+        pit_param4 = #{record.pitParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pitParam5 != null" >
+        pit_param5 = #{record.pitParam5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product_image_tbl
+    set pit_id = #{record.pitId,jdbcType=INTEGER},
+      pit_path = #{record.pitPath,jdbcType=VARCHAR},
+      pit_pt_id = #{record.pitPtId,jdbcType=INTEGER},
+      pit_status = #{record.pitStatus,jdbcType=INTEGER},
+      pit_param1 = #{record.pitParam1,jdbcType=VARCHAR},
+      pit_param2 = #{record.pitParam2,jdbcType=VARCHAR},
+      pit_param3 = #{record.pitParam3,jdbcType=VARCHAR},
+      pit_param4 = #{record.pitParam4,jdbcType=VARCHAR},
+      pit_param5 = #{record.pitParam5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.interview.bean.ProductImageBean" >
+    update product_image_tbl
+    <set >
+      <if test="pitPath != null" >
+        pit_path = #{pitPath,jdbcType=VARCHAR},
+      </if>
+      <if test="pitPtId != null" >
+        pit_pt_id = #{pitPtId,jdbcType=INTEGER},
+      </if>
+      <if test="pitStatus != null" >
+        pit_status = #{pitStatus,jdbcType=INTEGER},
+      </if>
+      <if test="pitParam1 != null" >
+        pit_param1 = #{pitParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam2 != null" >
+        pit_param2 = #{pitParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam3 != null" >
+        pit_param3 = #{pitParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam4 != null" >
+        pit_param4 = #{pitParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="pitParam5 != null" >
+        pit_param5 = #{pitParam5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pit_id = #{pitId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.interview.bean.ProductImageBean" >
+    update product_image_tbl
+    set pit_path = #{pitPath,jdbcType=VARCHAR},
+      pit_pt_id = #{pitPtId,jdbcType=INTEGER},
+      pit_status = #{pitStatus,jdbcType=INTEGER},
+      pit_param1 = #{pitParam1,jdbcType=VARCHAR},
+      pit_param2 = #{pitParam2,jdbcType=VARCHAR},
+      pit_param3 = #{pitParam3,jdbcType=VARCHAR},
+      pit_param4 = #{pitParam4,jdbcType=VARCHAR},
+      pit_param5 = #{pitParam5,jdbcType=VARCHAR}
+    where pit_id = #{pitId,jdbcType=INTEGER}
+  </update>
+</mapper>

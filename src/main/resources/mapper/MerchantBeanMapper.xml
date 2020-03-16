@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interview.mapper.MerchantBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.interview.bean.MerchantBean" >
+    <id column="mt_id" property="mtId" jdbcType="INTEGER" />
+    <result column="mt_status" property="mtStatus" jdbcType="INTEGER" />
+    <result column="mt_title" property="mtTitle" jdbcType="VARCHAR" />
+    <result column="mt_param1" property="mtParam1" jdbcType="VARCHAR" />
+    <result column="mt_param2" property="mtParam2" jdbcType="VARCHAR" />
+    <result column="mt_param3" property="mtParam3" jdbcType="VARCHAR" />
+    <result column="mt_param4" property="mtParam4" jdbcType="VARCHAR" />
+    <result column="mt_param5" property="mtParam5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    mt_id, mt_status, mt_title, mt_param1, mt_param2, mt_param3, mt_param4, mt_param5
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.interview.bean.MerchantBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from merchant_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from merchant_tbl
+    where mt_id = #{mtId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from merchant_tbl
+    where mt_id = #{mtId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.interview.bean.MerchantBeanExample" >
+    delete from merchant_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.interview.bean.MerchantBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="mtId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into merchant_tbl (mt_status, mt_title, mt_param1, 
+      mt_param2, mt_param3, mt_param4, 
+      mt_param5)
+    values (#{mtStatus,jdbcType=INTEGER}, #{mtTitle,jdbcType=VARCHAR}, #{mtParam1,jdbcType=VARCHAR}, 
+      #{mtParam2,jdbcType=VARCHAR}, #{mtParam3,jdbcType=VARCHAR}, #{mtParam4,jdbcType=VARCHAR}, 
+      #{mtParam5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.interview.bean.MerchantBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="mtId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into merchant_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mtStatus != null" >
+        mt_status,
+      </if>
+      <if test="mtTitle != null" >
+        mt_title,
+      </if>
+      <if test="mtParam1 != null" >
+        mt_param1,
+      </if>
+      <if test="mtParam2 != null" >
+        mt_param2,
+      </if>
+      <if test="mtParam3 != null" >
+        mt_param3,
+      </if>
+      <if test="mtParam4 != null" >
+        mt_param4,
+      </if>
+      <if test="mtParam5 != null" >
+        mt_param5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mtStatus != null" >
+        #{mtStatus,jdbcType=INTEGER},
+      </if>
+      <if test="mtTitle != null" >
+        #{mtTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam1 != null" >
+        #{mtParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam2 != null" >
+        #{mtParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam3 != null" >
+        #{mtParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam4 != null" >
+        #{mtParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam5 != null" >
+        #{mtParam5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.interview.bean.MerchantBeanExample" resultType="java.lang.Integer" >
+    select count(*) from merchant_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update merchant_tbl
+    <set >
+      <if test="record.mtId != null" >
+        mt_id = #{record.mtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mtStatus != null" >
+        mt_status = #{record.mtStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.mtTitle != null" >
+        mt_title = #{record.mtTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtParam1 != null" >
+        mt_param1 = #{record.mtParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtParam2 != null" >
+        mt_param2 = #{record.mtParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtParam3 != null" >
+        mt_param3 = #{record.mtParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtParam4 != null" >
+        mt_param4 = #{record.mtParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtParam5 != null" >
+        mt_param5 = #{record.mtParam5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update merchant_tbl
+    set mt_id = #{record.mtId,jdbcType=INTEGER},
+      mt_status = #{record.mtStatus,jdbcType=INTEGER},
+      mt_title = #{record.mtTitle,jdbcType=VARCHAR},
+      mt_param1 = #{record.mtParam1,jdbcType=VARCHAR},
+      mt_param2 = #{record.mtParam2,jdbcType=VARCHAR},
+      mt_param3 = #{record.mtParam3,jdbcType=VARCHAR},
+      mt_param4 = #{record.mtParam4,jdbcType=VARCHAR},
+      mt_param5 = #{record.mtParam5,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.interview.bean.MerchantBean" >
+    update merchant_tbl
+    <set >
+      <if test="mtStatus != null" >
+        mt_status = #{mtStatus,jdbcType=INTEGER},
+      </if>
+      <if test="mtTitle != null" >
+        mt_title = #{mtTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam1 != null" >
+        mt_param1 = #{mtParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam2 != null" >
+        mt_param2 = #{mtParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam3 != null" >
+        mt_param3 = #{mtParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam4 != null" >
+        mt_param4 = #{mtParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="mtParam5 != null" >
+        mt_param5 = #{mtParam5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mt_id = #{mtId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.interview.bean.MerchantBean" >
+    update merchant_tbl
+    set mt_status = #{mtStatus,jdbcType=INTEGER},
+      mt_title = #{mtTitle,jdbcType=VARCHAR},
+      mt_param1 = #{mtParam1,jdbcType=VARCHAR},
+      mt_param2 = #{mtParam2,jdbcType=VARCHAR},
+      mt_param3 = #{mtParam3,jdbcType=VARCHAR},
+      mt_param4 = #{mtParam4,jdbcType=VARCHAR},
+      mt_param5 = #{mtParam5,jdbcType=VARCHAR}
+    where mt_id = #{mtId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interview.mapper.UserBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.interview.bean.UserBean" >
+    <id column="ut_id" property="utId" jdbcType="INTEGER" />
+    <result column="ut_email" property="utEmail" jdbcType="VARCHAR" />
+    <result column="ut_password" property="utPassword" jdbcType="VARCHAR" />
+    <result column="ut_param1" property="utParam1" jdbcType="VARCHAR" />
+    <result column="ut_param2" property="utParam2" jdbcType="VARCHAR" />
+    <result column="ut_param3" property="utParam3" jdbcType="VARCHAR" />
+    <result column="ut_param4" property="utParam4" jdbcType="VARCHAR" />
+    <result column="ut_param5" property="utParam5" jdbcType="VARCHAR" />
+    <result column="ut_status" property="utStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ut_id, ut_email, ut_password, ut_param1, ut_param2, ut_param3, ut_param4, ut_param5, 
+    ut_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.interview.bean.UserBeanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_tbl
+    where ut_id = #{utId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_tbl
+    where ut_id = #{utId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.interview.bean.UserBeanExample" >
+    delete from user_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.interview.bean.UserBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="utId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_tbl (ut_email, ut_password, ut_param1, 
+      ut_param2, ut_param3, ut_param4, 
+      ut_param5, ut_status)
+    values (#{utEmail,jdbcType=VARCHAR}, #{utPassword,jdbcType=VARCHAR}, #{utParam1,jdbcType=VARCHAR}, 
+      #{utParam2,jdbcType=VARCHAR}, #{utParam3,jdbcType=VARCHAR}, #{utParam4,jdbcType=VARCHAR}, 
+      #{utParam5,jdbcType=VARCHAR}, #{utStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.interview.bean.UserBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="utId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="utEmail != null" >
+        ut_email,
+      </if>
+      <if test="utPassword != null" >
+        ut_password,
+      </if>
+      <if test="utParam1 != null" >
+        ut_param1,
+      </if>
+      <if test="utParam2 != null" >
+        ut_param2,
+      </if>
+      <if test="utParam3 != null" >
+        ut_param3,
+      </if>
+      <if test="utParam4 != null" >
+        ut_param4,
+      </if>
+      <if test="utParam5 != null" >
+        ut_param5,
+      </if>
+      <if test="utStatus != null" >
+        ut_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="utEmail != null" >
+        #{utEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="utPassword != null" >
+        #{utPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam1 != null" >
+        #{utParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam2 != null" >
+        #{utParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam3 != null" >
+        #{utParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam4 != null" >
+        #{utParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam5 != null" >
+        #{utParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="utStatus != null" >
+        #{utStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.interview.bean.UserBeanExample" resultType="java.lang.Integer" >
+    select count(*) from user_tbl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_tbl
+    <set >
+      <if test="record.utId != null" >
+        ut_id = #{record.utId,jdbcType=INTEGER},
+      </if>
+      <if test="record.utEmail != null" >
+        ut_email = #{record.utEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utPassword != null" >
+        ut_password = #{record.utPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utParam1 != null" >
+        ut_param1 = #{record.utParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utParam2 != null" >
+        ut_param2 = #{record.utParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utParam3 != null" >
+        ut_param3 = #{record.utParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utParam4 != null" >
+        ut_param4 = #{record.utParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utParam5 != null" >
+        ut_param5 = #{record.utParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utStatus != null" >
+        ut_status = #{record.utStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_tbl
+    set ut_id = #{record.utId,jdbcType=INTEGER},
+      ut_email = #{record.utEmail,jdbcType=VARCHAR},
+      ut_password = #{record.utPassword,jdbcType=VARCHAR},
+      ut_param1 = #{record.utParam1,jdbcType=VARCHAR},
+      ut_param2 = #{record.utParam2,jdbcType=VARCHAR},
+      ut_param3 = #{record.utParam3,jdbcType=VARCHAR},
+      ut_param4 = #{record.utParam4,jdbcType=VARCHAR},
+      ut_param5 = #{record.utParam5,jdbcType=VARCHAR},
+      ut_status = #{record.utStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.interview.bean.UserBean" >
+    update user_tbl
+    <set >
+      <if test="utEmail != null" >
+        ut_email = #{utEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="utPassword != null" >
+        ut_password = #{utPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam1 != null" >
+        ut_param1 = #{utParam1,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam2 != null" >
+        ut_param2 = #{utParam2,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam3 != null" >
+        ut_param3 = #{utParam3,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam4 != null" >
+        ut_param4 = #{utParam4,jdbcType=VARCHAR},
+      </if>
+      <if test="utParam5 != null" >
+        ut_param5 = #{utParam5,jdbcType=VARCHAR},
+      </if>
+      <if test="utStatus != null" >
+        ut_status = #{utStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ut_id = #{utId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.interview.bean.UserBean" >
+    update user_tbl
+    set ut_email = #{utEmail,jdbcType=VARCHAR},
+      ut_password = #{utPassword,jdbcType=VARCHAR},
+      ut_param1 = #{utParam1,jdbcType=VARCHAR},
+      ut_param2 = #{utParam2,jdbcType=VARCHAR},
+      ut_param3 = #{utParam3,jdbcType=VARCHAR},
+      ut_param4 = #{utParam4,jdbcType=VARCHAR},
+      ut_param5 = #{utParam5,jdbcType=VARCHAR},
+      ut_status = #{utStatus,jdbcType=INTEGER}
+    where ut_id = #{utId,jdbcType=INTEGER}
+  </update>
+</mapper>
